@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bitcoin Lightning Payment Gateway — Integration Methods | ElenPAY</title>
+<meta name="description" content="ElenPAY's Bitcoin Lightning payment gateway lets businesses accept Lightning payments via REST API, embeddable widget, payment links, white-label PSP, or PSP partner program. Sub-1-second settlement, fees below 1%." />
+<meta property="og:title" content="Bitcoin Lightning Payment Gateway — Integration Methods | ElenPAY" />
+<meta property="og:description" content="ElenPAY's Bitcoin Lightning payment gateway lets businesses accept Lightning payments via REST API, embeddable widget, payment links, white-label PSP, or PSP partner program. Sub-1-second settlement, fees below 1%." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: oklch(0.16 0.02 260);
+  --fg: oklch(0.985 0 0);
+  --muted-fg: oklch(0.72 0.02 260);
+  --surface-1: oklch(0.20 0.025 260);
+  --surface-2: oklch(0.24 0.03 260);
+  --mint: oklch(0.82 0.20 155);
+  --mint-fg: oklch(0.18 0.02 260);
+  --indigo: oklch(0.58 0.22 275);
+  --border: oklch(1 0 0 / 0.08);
+  --border-strong: oklch(1 0 0 / 0.18);
+  --shadow-card: 0 1px 0 0 oklch(1 0 0 / 0.04) inset, 0 8px 24px -12px oklch(0 0 0 / 0.6);
+  --gradient-hero: radial-gradient(ellipse at top, oklch(0.32 0.18 270 / 0.35) 0%, transparent 60%);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: "Inter", system-ui, sans-serif;
+  font-feature-settings: "ss01","cv11";
+  line-height: 1.5;
+}
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+.display { font-weight: 500; letter-spacing: -0.03em; line-height: 1.05; }
+
+.eyebrow {
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--mint);
+}
+.eyebrow::before { content: "› "; color: var(--mint); margin-right: 0.25rem; }
+
+.text-mint { color: var(--mint); }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 22px; border-radius: 999px;
+  font-weight: 600; font-size: 0.95rem;
+  border: 1px solid transparent; cursor: pointer;
+  transition: transform .15s ease, background .15s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn-mint { background: var(--mint); color: var(--mint-fg); }
+.btn-mint:hover { filter: brightness(1.05); }
+.btn-outline { border-color: var(--border-strong); color: var(--fg); background: transparent; }
+.btn-outline:hover { background: oklch(1 0 0 / 0.05); }
+
+.arrow { display: inline-block; }
+
+/* HERO */
+.hero { position: relative; overflow: hidden; }
+.hero::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: var(--gradient-hero);
+}
+.hero::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0.04;
+  background-image:
+    linear-gradient(to right, white 1px, transparent 1px),
+    linear-gradient(to bottom, white 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.hero-inner { padding: 112px 24px 96px; max-width: 1200px; margin: 0 auto; }
+@media(min-width: 1024px) { .hero-inner { padding: 176px 24px 160px; } }
+
+.hero h1 {
+  margin-top: 24px; max-width: 1100px;
+  font-size: clamp(2.5rem, 5.5vw, 5.5rem);
+}
+.hero p.lead {
+  margin-top: 32px; max-width: 680px;
+  font-size: 1.2rem; color: var(--muted-fg);
+}
+.hero .cta-row { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* GRID INTRO */
+.grid-section { max-width: 1200px; margin: 0 auto; padding: 96px 24px; }
+.grid-header {
+  display: grid; gap: 48px; align-items: end; margin-top: 16px;
+}
+@media(min-width: 1024px) {
+  .grid-header { grid-template-columns: 1.1fr 1fr; }
+  .grid-header p { justify-self: end; max-width: 28rem; }
+}
+.grid-header h2 { font-size: clamp(2rem, 4vw, 3.75rem); }
+.grid-header p { font-size: 1.125rem; color: var(--muted-fg); }
+
+.cards-grid {
+  margin-top: 56px;
+  display: grid; gap: 20px;
+  grid-template-columns: 1fr;
+}
+@media(min-width: 640px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+@media(min-width: 1024px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.card {
+  position: relative; display: flex; flex-direction: column;
+  padding: 28px; border-radius: 16px;
+  background: var(--indigo);
+  border: 1px solid oklch(1 0 0 / 0.10);
+  box-shadow: var(--shadow-card);
+  transition: transform .2s ease, border-color .2s ease;
+  color: white;
+}
+.card:hover { transform: translateY(-2px); border-color: oklch(1 0 0 / 0.30); }
+.card-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  background: oklch(1 0 0 / 0.15); font-size: 1.5rem;
+}
+.card-title { font-weight: 500; font-size: 1.5rem; letter-spacing: -0.03em; line-height: 1.1; margin-top: 32px; }
+.card-tag { flex: 1; margin-top: 12px; font-size: 0.875rem; line-height: 1.55; color: oklch(1 0 0 / 0.75); }
+.card-link { margin-top: 32px; display: inline-flex; align-items: center; gap: 6px; font-weight: 500; font-size: 0.875rem; }
+
+/* DETAIL SECTION */
+.detail { border-top: 1px solid var(--border); padding: 96px 0; scroll-margin-top: 80px; }
+.detail-grid {
+  display: grid; gap: 48px;
+}
+@media(min-width: 1024px) {
+  .detail-grid { grid-template-columns: 1fr 1fr; gap: 80px; }
+  .detail.reverse .detail-content { order: 2; }
+}
+.detail-content .h2 { margin-top: 16px; font-size: clamp(1.75rem, 3.5vw, 3rem); }
+.detail-content .tagline { margin-top: 20px; font-size: 1.125rem; color: var(--mint); }
+.detail-content .prose { margin-top: 24px; display: flex; flex-direction: column; gap: 16px; color: var(--muted-fg); font-size: 1rem; line-height: 1.65; }
+.benefits {
+  margin-top: 40px;
+  display: grid; gap: 24px;
+}
+@media(min-width: 640px) { .benefits { grid-template-columns: 1fr 1fr; column-gap: 32px; } }
+.benefit { border-left: 1px solid oklch(0.82 0.20 155 / 0.4); padding-left: 16px; }
+.benefit dt { font-size: 0.875rem; font-weight: 600; color: var(--fg); }
+.benefit dd { margin-top: 4px; font-size: 0.875rem; color: var(--muted-fg); }
+.cta-row { margin-top: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.text-link { font-size: 0.875rem; font-weight: 500; color: oklch(0.985 0 0 / 0.8); }
+.text-link:hover { color: var(--fg); text-decoration: underline; text-underline-offset: 4px; }
+
+.detail-card {
+  position: relative; overflow: hidden; border-radius: 24px;
+  background: var(--surface-1); border: 1px solid oklch(1 0 0 / 0.10);
+  padding: 40px; box-shadow: var(--shadow-card);
+}
+.card-glow {
+  position: absolute; right: -80px; top: -80px;
+  width: 256px; height: 256px; border-radius: 50%;
+  background: var(--indigo); opacity: 0.30; filter: blur(48px);
+  pointer-events: none;
+}
+.big-icon {
+  position: relative;
+  width: 56px; height: 56px; border-radius: 16px;
+  background: var(--mint); color: var(--mint-fg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.7rem;
+}
+.micro-label { font-size: 0.625rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: var(--mint); margin-top: 32px; position: relative; }
+.micro-label.muted { color: var(--muted-fg); }
+.checklist { margin-top: 20px; display: flex; flex-direction: column; gap: 14px; position: relative; }
+.checklist li { display: flex; align-items: flex-start; gap: 12px; font-size: 0.875rem; color: oklch(0.985 0 0 / 0.9); }
+.check { flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; background: oklch(0.82 0.20 155 / 0.15); color: var(--mint); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; margin-top: 2px; }
+.best-for { margin-top: 32px; padding-top: 24px; border-top: 1px solid oklch(1 0 0 / 0.10); position: relative; }
+.best-for-text { margin-top: 8px; font-size: 0.875rem; color: oklch(0.985 0 0 / 0.9); }
+
+/* COMPARE */
+.compare { border-top: 1px solid var(--border); padding: 96px 0; }
+.compare h2 { margin-top: 16px; max-width: 920px; font-size: clamp(2rem, 4vw, 3rem); }
+.compare .prose { margin-top: 40px; max-width: 920px; display: flex; flex-direction: column; gap: 24px; color: var(--muted-fg); font-size: 1rem; line-height: 1.65; }
+.compare h3 { margin-top: 56px; font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: var(--mint); }
+.compare-table-wrap { margin-top: 24px; overflow: hidden; border-radius: 16px; border: 1px solid oklch(1 0 0 / 0.10); background: var(--surface-1); }
+.compare-table { width: 100%; border-collapse: collapse; text-align: left; }
+.compare-table thead { border-bottom: 1px solid oklch(1 0 0 / 0.10); }
+.compare-table th { padding: 20px 28px; font-size: 0.625rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted-fg); }
+.compare-table th.lightning-col { color: var(--mint); }
+.compare-table tr { border-top: 1px solid oklch(1 0 0 / 0.10); }
+.compare-table tr:hover { background: oklch(1 0 0 / 0.05); }
+.compare-table td { padding: 20px 28px; font-size: 0.875rem; }
+.row-label { font-weight: 500; color: var(--fg); }
+.row-std { color: var(--muted-fg); }
+.row-ln { color: oklch(0.985 0 0 / 0.9); }
+.compare .closing { margin-top: 48px; max-width: 920px; display: flex; flex-direction: column; gap: 24px; color: var(--muted-fg); font-size: 1rem; line-height: 1.65; }
+
+/* FAQ */
+.faq { border-top: 1px solid var(--border); padding: 96px 0; }
+.faq-header { display: grid; gap: 48px; align-items: end; margin-top: 16px; }
+@media(min-width: 1024px) {
+  .faq-header { grid-template-columns: 1.1fr 1fr; }
+  .faq-header p { justify-self: end; max-width: 28rem; }
+}
+.faq-header h2 { font-size: clamp(2rem, 4vw, 3rem); }
+.faq-header p { font-size: 1.125rem; color: var(--muted-fg); }
+.faq-list { margin-top: 48px; }
+.faq-item { border-bottom: 1px solid oklch(1 0 0 / 0.10); }
+.faq-item summary { list-style: none; padding: 24px 0; font-weight: 600; font-size: 1.0625rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary:hover { color: var(--mint); }
+.faq-icon { flex-shrink: 0; color: var(--mint); font-size: 1.25rem; transition: transform .2s ease; }
+.faq-item[open] .faq-icon { transform: rotate(45deg); }
+.faq-answer { padding-bottom: 24px; color: var(--muted-fg); font-size: 1rem; line-height: 1.65; }
+
+/* CTA BAND */
+.cta-band { border-top: 1px solid var(--border); padding: 96px 0; }
+.cta-band-header { display: grid; gap: 40px; align-items: end; }
+@media(min-width: 1024px) { .cta-band-header { grid-template-columns: 1.4fr 1fr; } }
+.cta-band-header p.kicker { font-size: 0.875rem; color: oklch(0.985 0 0 / 0.8); }
+.cta-band-header h2 { margin-top: 16px; font-size: clamp(3.5rem, 7vw, 6rem); }
+.cta-band-header p.desc { font-size: 1rem; color: var(--muted-fg); max-width: 24rem; }
+.cta-band-card {
+  margin-top: 48px; overflow: hidden; border-radius: 24px;
+  background: var(--indigo); padding: 36px;
+  display: flex; flex-direction: column; gap: 24px;
+}
+@media(min-width: 640px) {
+  .cta-band-card { flex-direction: row; align-items: center; justify-content: space-between; padding: 40px; }
+}
+.cta-band-card h3 { font-size: 1.5rem; font-weight: 600; color: white; }
+.cta-band-card .sub { margin-top: 8px; font-size: 0.875rem; color: oklch(1 0 0 / 0.7); }
+.cta-band-card .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn-outline-white { border: 1px solid oklch(1 0 0 / 0.30); color: white; background: transparent; }
+.btn-outline-white:hover { background: oklch(1 0 0 / 0.10); }
+
+/* LIGHTNING PROCESSING SECTION */
+.lightning-processing {
+  padding: var(--section-py) 0;
+  background: var(--surface-0);
+}
+.lp-header {
+  margin-bottom: 48px;
+}
+.lp-tagline {
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  color: var(--muted-fg);
+  max-width: 640px;
+  margin-top: 16px;
+  line-height: 1.6;
+}
+.lp-body {
+  display: grid;
+  gap: 48px;
+}
+@media(min-width: 1024px) {
+  .lp-body { grid-template-columns: 1fr 1fr; align-items: start; gap: 80px; }
+}
+.lp-intro {
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 1.7;
+  color: var(--fg);
+}
+.lp-benefits {
+  display: grid;
+  gap: 28px;
+}
+.lp-benefit dt {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--fg);
+  margin-bottom: 6px;
+}
+.lp-benefit dd {
+  font-size: 0.9rem;
+  color: var(--muted-fg);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* PARTNERS SECTION */
+.partners-section {
+  padding: var(--section-py) 0;
+  background: var(--surface-1);
+}
+.partners-grid {
+  display: grid;
+  gap: 64px;
+  align-items: start;
+}
+@media(min-width: 1024px) {
+  .partners-grid { grid-template-columns: 1fr 380px; }
+}
+.partners-tagline {
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  color: var(--muted-fg);
+  line-height: 1.7;
+  margin: 20px 0 40px;
+}
+
+/* MARQUEE */
+.marquee-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow: hidden;
+}
+.marquee-wrap {
+  overflow: hidden;
+  width: 100%;
+  mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+.marquee-track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  animation: marquee-scroll 18s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-logo {
+  flex-shrink: 0;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 10px;
+  background: oklch(1 0 0 / 0.06);
+  border: 1px solid oklch(1 0 0 / 0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--muted-fg);
+  white-space: nowrap;
+}
+
+/* STAT BAR */
+.stat-bar {
+  margin-top: 48px;
+  border-radius: 24px;
+  background: var(--surface-1);
+  border: 1px solid oklch(1 0 0 / 0.10);
+  padding: 48px;
+  box-shadow: var(--shadow-card);
+}
+.stat-bar-header {
+  display: grid;
+  gap: 40px;
+  align-items: center;
+  padding-bottom: 40px;
+  border-bottom: 1px solid oklch(1 0 0 / 0.10);
+}
+@media(min-width: 1024px) {
+  .stat-bar-header { grid-template-columns: 1fr auto; }
+}
+.stat-bar-headline {
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+  color: var(--fg);
+  max-width: 560px;
+}
+.stat-bar-numbers {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-shrink: 0;
+}
+.stat-number {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.stat-value {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  color: var(--mint);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted-fg);
+}
+.stat-divider {
+  width: 1px;
+  height: 48px;
+  background: oklch(1 0 0 / 0.12);
+}
+.stat-bar-bullets {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 40px;
+  padding-top: 40px;
+}
+@media(min-width: 1024px) {
+  .stat-bar-bullets { grid-template-columns: repeat(4, 1fr); }
+}
+.stat-bullet {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.875rem;
+  color: var(--muted-fg);
+  line-height: 1.5;
+}
+.stat-check {
+  flex-shrink: 0;
+  font-size: 0.875rem;
+  margin-top: 1px;
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a crypto payment gateway?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A crypto payment gateway is software infrastructure that enables businesses to accept cryptocurrency payments from customers, converting the transaction into a confirmed payment and crediting funds to the merchant's account. Unlike traditional payment gateways that process card or bank transfers, crypto gateways settle directly on blockchain or Layer 2 protocols such as the Lightning Network, eliminating intermediaries and the delays they introduce."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does ElenPAY's crypto payment gateway work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ElenPAY's payment gateway processes Bitcoin Lightning payments in three steps: a Lightning invoice is automatically generated when a customer initiates payment; the transaction settles through the Lightning Network in under one second; and Bitcoin is credited to the merchant's back office in real time. There are no clearing windows or float — funds are available the moment the customer pays."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What integration methods does ElenPAY offer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ElenPAY offers five integration methods to fit different technical environments and go-live timelines: a REST API for full backend control over the payment flow; an embeddable payment widget for fast deployment with minimal development effort; payment links for no-code payment collection without any development requirement; a payment aggregator and white-label option for businesses that want to launch Lightning payments under their own brand; and integration through ElenPAY's PSP Partnerships program, which enables established payment providers and distributors to offer Lightning payments within their existing payments stack."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does it take to integrate ElenPAY's Lightning payment gateway?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Integration time depends on the method chosen. The REST API is designed to be integrated in hours, not weeks, with a sandbox environment for testing before going live. The payment widget can be embedded with minimal development effort, making it the fastest path to accepting Lightning payments on an existing platform. Payment links require only backend access to generate a payment URL — no frontend development needed. ElenPAY provides expert integration guidance and 24/7 technical support throughout the process."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does ElenPAY support pay-ins and payouts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. ElenPAY supports both pay-ins (receiving payments from customers) and payouts (sending funds to users, affiliates, or partners). Mass payouts can be processed simultaneously, making ElenPAY suitable for platforms with large affiliate or partner networks, gaming platforms with frequent player withdrawals, and marketplaces that distribute earnings to multiple recipients."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is ElenPAY's payment gateway suitable for iGaming platforms?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. ElenPAY's gateway is purpose-built for high-frequency, real-time deposit and withdrawal flows required by iGaming and online casino platforms. Lightning's sub-1-second settlement enables instant player deposits, while zero chargebacks eliminate a major operational risk for operators. ElenPAY also supports the operational requirements of international gaming markets."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can ElenPAY be used as a white-label payment gateway?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. ElenPAY offers a white-label Lightning PSP option, enabling businesses to launch their own Lightning payment service under their brand. ElenPAY manages the underlying node infrastructure, liquidity management, and routing. The operator owns the customer relationship and frontend experience. This is designed for PSPs, neobanks, and fintech platforms that want to add Lightning payments as a proprietary product."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <h1 class="display"><span class="text-mint">Bitcoin Lightning</span> Payment Gateway<br/>for Every Platform</h1>
+    <p class="lead">From an API to a fully white-labeled payments infrastructure. With ElenPAY, accepting Lightning Payments is simple, built to align with your team, your stack, and your customers.</p>
+    <div class="cta-row">
+      <a href="#contact" class="btn btn-mint">Book a Demo <span class="arrow">↗</span></a>
+      <a href="#integrations-grid" class="btn btn-outline">Continue Exploring <span class="arrow">↓</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- BITCOIN LIGHTNING PROCESSING -->
+<section id="lightning" class="lightning-processing">
+  <div class="container">
+    <div class="lp-header">
+      <h2 class="display h2">Bitcoin Lightning <span class="text-mint">processing</span></h2>
+      <p class="lp-tagline">Crypto-native gateway to accept Bitcoin via the Lightning Network, with instant payments, near-zero fees, and enhanced privacy layers.</p>
+    </div>
+    <div class="lp-body">
+      <p class="lp-intro">ElenPAY enables businesses to directly accept payments via the Bitcoin Lightning Network, unlocking access to products and services for over 650 million users worldwide through Bitcoin, the most widely adopted cryptocurrency.</p>
+      <dl class="lp-benefits">
+        <div class="lp-benefit">
+          <dt>⚡ Instant transaction finality</dt>
+          <dd>Payments and withdrawals are confirmed in under 1 second, while being highly scalable.</dd>
+        </div>
+        <div class="lp-benefit">
+          <dt>⚡ Near-zero network fees</dt>
+          <dd>Network fees fall close to a fraction of a cent per transaction, regardless of volumes.</dd>
+        </div>
+        <div class="lp-benefit">
+          <dt>⚡ Global pay-ins &amp; payouts</dt>
+          <dd>Support payments and withdrawals from anywhere, eliminating cross-border fees and delays.</dd>
+        </div>
+        <div class="lp-benefit">
+          <dt>⚡ Autonomy from legacy methods</dt>
+          <dd>Operates independently from banks and card issuers, providing risk and cash management benefits.</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- INTEGRATION METHODS GRID -->
+<section class="grid-section" id="integrations-grid">
+  <div class="grid-header">
+    <h2 class="display">Lightning payments <span class="text-mint">gateway integration methods</span></h2>
+    <p>Select the integration method that best fits your platform and team.</p>
+  </div>
+  <div class="cards-grid">
+    <a href="/integrations/api/" class="card">
+      <div class="card-icon">&lt;/&gt;</div>
+      <h3 class="card-title">API integration</h3>
+      <p class="card-tag">Full REST API lightning payments to match your checkout experience and the payout flows you need to boost user retention.</p>
+      <span class="card-link">Learn more <span class="arrow">↗</span></span>
+    </a>
+    <a href="/integrations/widget/" class="card">
+      <div class="card-icon">▦</div>
+      <h3 class="card-title">Widget integration</h3>
+      <p class="card-tag">No-code lightning payments setup. Single snippet integration onto any website to embed a Lightning payments widget and start processing.</p>
+      <span class="card-link">Learn more <span class="arrow">↗</span></span>
+    </a>
+    <a href="/integrations/payment-link/" class="card">
+      <div class="card-icon">🔗</div>
+      <h3 class="card-title">Payment Link</h3>
+      <p class="card-tag">Lightning payment URL generated in seconds. To be shared anywhere and get paid instantly with no front-end development required.</p>
+      <span class="card-link">Learn more <span class="arrow">↗</span></span>
+    </a>
+    <a href="/white-label-lightning-psp/" class="card">
+      <div class="card-icon">🏛</div>
+      <h3 class="card-title">Aggregator &amp; White-label</h3>
+      <p class="card-tag">White-label Bitcoin Lightning PSP for partner integration under your own brand. For payment orchestrators, crypto payment PSPs, and more.</p>
+      <span class="card-link">Learn more <span class="arrow">↗</span></span>
+    </a>
+  </div>
+</section>
+
+<!-- PSP PARTNER NETWORK -->
+<section id="partners" class="partners-section">
+  <div class="container">
+    <div class="partners-grid">
+      <div class="partners-content">
+        <h2 class="display h2">Lightning payments via <span class="text-mint">ElenPAY's PSP partner network</span></h2>
+        <p class="partners-tagline">Activate all the benefits of Lightning through our trusted PSP partnerships program, including access to our partners' ecosystems, such as broader payment stack, local payments, platform infrastructure, and more.</p>
+        <dl class="benefits">
+          <div class="benefit">
+            <dt>Preferential PSP fees</dt>
+            <dd>Ensuring that partners, end merchants, and users can continue to benefit from low network fees at fair PSP prices.</dd>
+          </div>
+          <div class="benefit">
+            <dt>Global market reach</dt>
+            <dd>With a network of global partners, merchants can securely accept payments and send payouts globally.</dd>
+          </div>
+          <div class="benefit">
+            <dt>Ready to deploy Lightning payments</dt>
+            <dd>Reduce time to payment readiness by seamlessly activating Lightning from your provider.</dd>
+          </div>
+          <div class="benefit">
+            <dt>Full benefits of Lightning and more</dt>
+            <dd>Benefit from our partners' solutions ecosystems and the full advantages of Lightning payments.</dd>
+          </div>
+        </dl>
+        <div class="cta-row">
+          <a href="/partners/" class="btn btn-mint">Find your integration partner <span class="arrow">↗</span></a>
+        </div>
+      </div>
+      <div class="detail-card marquee-card">
+        <div class="card-glow"></div>
+        <p class="micro-label">Trusted Lightning PSP by our partners</p>
+        <div class="marquee-wrap">
+          <div class="marquee-track">
+            <div class="marquee-logo">Stripe</div>
+            <div class="marquee-logo">Adyen</div>
+            <div class="marquee-logo">Checkout.com</div>
+            <div class="marquee-logo">Nuvei</div>
+            <div class="marquee-logo">Worldpay</div>
+            <div class="marquee-logo">Paysafe</div>
+            <div class="marquee-logo">Payvision</div>
+            <div class="marquee-logo">Stripe</div>
+            <div class="marquee-logo">Adyen</div>
+            <div class="marquee-logo">Checkout.com</div>
+            <div class="marquee-logo">Nuvei</div>
+            <div class="marquee-logo">Worldpay</div>
+            <div class="marquee-logo">Paysafe</div>
+            <div class="marquee-logo">Payvision</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="compare">
+  <div class="container">
+    <h2 class="display"><span class="text-mint">Lightning payment gateway</span> vs. standard crypto payment gateway</h2>
+    <div class="prose">
+      <p>Standard crypto payment gateways process on-chain Bitcoin transactions, typically taking 10 to 60 minutes to confirm, with fees that fluctuate under congestion. ElenPAY's Lightning payment gateway settles on the Lightning Network, a Layer 2 protocol built on top of Bitcoin, processing transactions in under 1 second at network fees of less than $0.01 per transaction.</p>
+    </div>
+    <h3>On-Chain vs. Lightning: At a Glance</h3>
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <thead><tr><th>&nbsp;</th><th>Standard Crypto Gateway</th><th class="lightning-col">Lightning Payment Gateway</th></tr></thead>
+        <tbody><tr><td class="row-label">Settlement time</td><td class="row-std">10–60 minutes</td><td class="row-ln">Under 1 second</td></tr><tr><td class="row-label">Network fees</td><td class="row-std">Variable, can spike</td><td class="row-ln">Below $0.01</td></tr><tr><td class="row-label">Chargebacks</td><td class="row-std">No</td><td class="row-ln">No</td></tr><tr><td class="row-label">Suitable for high-frequency payments</td><td class="row-std">Limited</td><td class="row-ln">Yes</td></tr><tr><td class="row-label">Micropayment support</td><td class="row-std">Impractical</td><td class="row-ln">Yes</td></tr></tbody>
+      </table>
+    </div>
+    <div class="closing">
+      <div class="stat-bar">
+        <div class="stat-bar-header">
+          <p class="stat-bar-headline">Lightning gateways are designed for businesses that need payments to behave like payments — instant, predictable, and scalable — not like asset transfers.</p>
+          <div class="stat-bar-numbers">
+            <div class="stat-number">
+              <span class="stat-value">&lt; 1s</span>
+              <span class="stat-label">Settlement</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-number">
+              <span class="stat-value">&lt; $0.01</span>
+              <span class="stat-label">Network fee per transaction</span>
+            </div>
+          </div>
+        </div>
+        <div class="stat-bar-bullets">
+          <div class="stat-bullet"><span class="stat-check">⚡</span><span>Handle over 100,000 transactions per second</span></div>
+          <div class="stat-bullet"><span class="stat-check">⚡</span><span>Instant deposits and withdrawals</span></div>
+          <div class="stat-bullet"><span class="stat-check">⚡</span><span>Near-zero network fees</span></div>
+          <div class="stat-bullet"><span class="stat-check">⚡</span><span>Reduced dependence on legacy payment rails</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container">
+    <div class="faq-header">
+      <h2 class="display"><span class="text-mint">FAQ</span></h2>
+      <p>Answers to the most common questions from our clients and partners. You can also learn more about Lightning payments by visiting our <a href="/blog/" style="color: var(--mint); text-decoration: underline; text-underline-offset: 3px;">Lightning Knowledge Hub</a> or reaching out to <a href="/contact/" style="color: var(--mint); text-decoration: underline; text-underline-offset: 3px;">our team</a>.</p>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item"><summary>What is a crypto payment gateway?<span class="faq-icon">+</span></summary><div class="faq-answer">A crypto payment gateway is a software infrastructure that enables businesses to accept cryptocurrency payments from customers, convert them into confirmed payments, and credit funds to the merchant&#x27;s account. Unlike traditional payment gateways that process card or bank transfers, crypto gateways settle directly on blockchain or Layer 2 protocols such as the Lightning Network, eliminating intermediaries and the delays they introduce.</div></details>
+<details class="faq-item"><summary>How does ElenPAY&#x27;s crypto payment gateway work?<span class="faq-icon">+</span></summary><div class="faq-answer">ElenPAY&#x27;s payment gateway processes Bitcoin Lightning payments in three steps: a Lightning invoice is automatically generated when a customer initiates payment; the transaction settles through the Lightning Network in under one second; and Bitcoin is credited to the merchant&#x27;s back office in real time. There are no clearing windows or float; funds are available the moment the customer pays.</div></details>
+<details class="faq-item"><summary>What integration methods does ElenPAY offer?<span class="faq-icon">+</span></summary><div class="faq-answer">ElenPAY offers five integration methods to fit different technical environments and go-live timelines: a REST API for full backend control over the payment flow; an embeddable payment widget for fast deployment with minimal development effort; payment links for no-code payment collection without any development requirement; a payment aggregator and white-label option for businesses that want to launch Lightning payments under their own brand; and integration through ElenPAY&#x27;s PSP Partnerships program, which enables established payment providers and distributors to offer Lightning payments within their existing ecosystems.</div></details>
+<details class="faq-item"><summary>How long does it take to integrate ElenPAY&#x27;s Lightning payment gateway?<span class="faq-icon">+</span></summary><div class="faq-answer">Integration time depends on the method chosen. The REST API is designed to be integrated in hours, not weeks, with a sandbox environment for testing before going live. The payment widget can be embedded with minimal development effort, making it the fastest path to accepting Lightning payments on an existing platform. Payment links require only backend access to generate a payment URL with no frontend development needed. ElenPAY provides expert integration guidance and 24/7 technical support throughout the process.</div></details>
+<details class="faq-item"><summary>Does ElenPAY support pay-ins and payouts?<span class="faq-icon">+</span></summary><div class="faq-answer">Yes. ElenPAY supports both pay-ins (receiving payments from customers) and payouts (sending funds, or withdrawals, to users, affiliates, or partners). Mass payouts can be processed simultaneously, making ElenPAY suitable for platforms with large affiliate or partner networks, gaming platforms with frequent player withdrawals, and marketplaces that distribute earnings to multiple recipients.</div></details>
+<details class="faq-item"><summary>Is ElenPAY&#x27;s payment gateway suitable for iGaming platforms?<span class="faq-icon">+</span></summary><div class="faq-answer">Yes. ElenPAY&#x27;s gateway is purpose-built for high-frequency, real-time deposit and withdrawal flows required by iGaming and online casino platforms. Lightning&#x27;s sub-1-second settlement enables instant player deposits, while zero chargebacks eliminate a major operational risk for operators. ElenPAY also supports the operational requirements of international gaming markets.</div></details>
+<details class="faq-item"><summary>Can ElenPAY be used as a white-label payment gateway?<span class="faq-icon">+</span></summary><div class="faq-answer">Yes. ElenPAY offers a white-label Lightning PSP option, enabling businesses to launch their own Lightning payment service under their brand. ElenPAY manages the underlying node infrastructure, liquidity management, and routing. The operator owns the customer relationship and frontend experience. This is designed for PSPs, neobanks, and fintech platforms that want to add Lightning payments as a proprietary product.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-band" id="contact">
+  <div class="container">
+    <div class="cta-band-header">
+      <div>
+        <p class="kicker">Ready to integrate with <span class="text-mint">ElenPAY?</span></p>
+        <h2 class="display">Book a Demo</h2>
+      </div>
+      <p class="desc">Tell us about your business and our team will recommend the right path — and help you ship it.</p>
+    </div>
+    <div class="cta-band-card">
+      <div>
+        <h3>Stay updated on ElenPAY's latest news</h3>
+        <p class="sub">Product updates, integration guides and Lightning insights.</p>
+      </div>
+      <div class="actions">
+        <a href="#" class="btn btn-outline-white">Read our blog</a>
+        <a href="#" class="btn btn-mint">Or Subscribe <span class="arrow">↗</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
