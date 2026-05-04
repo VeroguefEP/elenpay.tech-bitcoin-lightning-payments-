@@ -1,0 +1,952 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- PRODUCTION CHECKLIST: Title tag — 57 chars -->
+<title>Bitcoin Lightning API Integration | ElenPAY</title>
+
+<!-- PRODUCTION CHECKLIST: Meta description — 148 chars -->
+<meta name="description" content="Integrate Bitcoin Lightning payments via ElenPAY's production-ready REST API. Sandbox environment, webhooks, sub-1-second settlement. Integrate in hours, not weeks." />
+
+<!-- PRODUCTION CHECKLIST: Canonical tag -->
+<link rel="canonical" href="https://elenpay.tech/bitcoin-lightning-payments/api-integration/" />
+
+<meta property="og:title" content="Bitcoin Lightning API Integration | ElenPAY" />
+<meta property="og:description" content="Integrate Bitcoin Lightning payments via ElenPAY's production-ready REST API. Sandbox environment, webhooks, sub-1-second settlement. Integrate in hours, not weeks." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://elenpay.tech/bitcoin-lightning-payments/api-integration/" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<!-- PRODUCTION CHECKLIST: BreadcrumbList JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://elenpay.tech/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Bitcoin Lightning Payments",
+      "item": "https://elenpay.tech/bitcoin-lightning-payments/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "API Integration",
+      "item": "https://elenpay.tech/bitcoin-lightning-payments/api-integration/"
+    }
+  ]
+}
+</script>
+
+<!-- PRODUCTION CHECKLIST: FAQPage JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is ElenPAY's Lightning API?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ElenPAY's Lightning API is a production-ready REST API that enables businesses to programmatically accept and send Bitcoin Lightning payments. It exposes endpoints for invoice creation, payment status webhooks, payouts, and settlement queries, giving developers full control over the payment flow while ElenPAY manages the Lightning node infrastructure, liquidity, and routing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does it take to integrate ElenPAY's Lightning API?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ElenPAY's REST API is designed to be integrated in hours, not weeks. The sandbox environment lets developers test invoice creation, payment flows, and webhook handling against a live Lightning testnet before going live. ElenPAY provides expert integration guidance and 24/7 technical support throughout the process."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does ElenPAY's API support both pay-ins and payouts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The API supports pay-ins (receiving Lightning payments from customers), payouts (sending Lightning payments to users, affiliates, or partners), and mass payouts — sending to multiple recipients simultaneously. This makes it suitable for iGaming platforms, creator platforms, and marketplaces with distributed payout requirements."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does the webhook payload look like?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "When a Lightning invoice is paid, ElenPAY fires an HTTPS POST request to the webhook URL specified in the invoice creation call. The payload includes the payment identifier, amount in satoshis, settlement timestamp, and status field. Your backend acknowledges the webhook with a 200 response, and funds are credited to your back office in real time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a sandbox environment for testing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. ElenPAY provides a full sandbox environment that mirrors production behaviour — invoice creation, payment simulation, and webhook delivery — without settling real funds. Developers can test end-to-end payment flows against Lightning testnet before requesting production API credentials."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What settlement speed and fees does ElenPAY's API deliver?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Lightning payments processed through ElenPAY's API settle in under one second. Network fees are below $0.01 per transaction. There are no chargebacks. Funds are credited to your back office the moment the customer pays — no clearing windows, no float."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can the API handle high-frequency payment environments?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. ElenPAY's Lightning infrastructure supports over 100,000 transactions per second, making the API suitable for iGaming platforms, high-frequency trading environments, and any application requiring concurrent payment processing at scale."
+      }
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: oklch(0.16 0.02 260);
+  --fg: oklch(0.985 0 0);
+  --muted-fg: oklch(0.72 0.02 260);
+  --surface-1: oklch(0.20 0.025 260);
+  --surface-2: oklch(0.24 0.03 260);
+  --mint: oklch(0.82 0.20 155);
+  --mint-fg: oklch(0.18 0.02 260);
+  --indigo: oklch(0.58 0.22 275);
+  --border: oklch(1 0 0 / 0.08);
+  --border-strong: oklch(1 0 0 / 0.18);
+  --shadow-card: 0 1px 0 0 oklch(1 0 0 / 0.04) inset, 0 8px 24px -12px oklch(0 0 0 / 0.6);
+  --gradient-hero: radial-gradient(ellipse at top, oklch(0.32 0.18 270 / 0.35) 0%, transparent 60%);
+  --code-bg: oklch(0.13 0.02 260);
+  --code-border: oklch(1 0 0 / 0.10);
+  --code-green: oklch(0.75 0.18 145);
+  --code-blue: oklch(0.72 0.18 240);
+  --code-orange: oklch(0.78 0.16 60);
+  --code-purple: oklch(0.72 0.18 305);
+  --code-muted: oklch(0.55 0.02 260);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+}
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.display { font-weight: 500; letter-spacing: -0.03em; line-height: 1.05; }
+h1, h2 { font-weight: 500; }
+p { font-weight: 400; }
+
+.eyebrow {
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--mint);
+}
+.eyebrow::before { content: "› "; color: var(--mint); margin-right: 0.25rem; }
+.text-mint { color: var(--mint); }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 22px; border-radius: 999px;
+  font-weight: 600; font-size: 0.95rem;
+  border: 1px solid transparent; cursor: pointer;
+  transition: transform .15s ease, background .15s ease, filter .15s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn-mint { background: var(--mint); color: var(--mint-fg); }
+.btn-mint:hover { filter: brightness(1.05); }
+.btn-outline { border-color: var(--border-strong); color: var(--fg); background: transparent; }
+.btn-outline:hover { background: oklch(1 0 0 / 0.05); }
+.arrow { display: inline-block; }
+
+/* NAV (minimal breadcrumb nav) */
+.topnav {
+  position: sticky; top: 0; z-index: 100;
+  background: oklch(0.16 0.02 260 / 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.topnav-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 24px;
+  height: 60px; display: flex; align-items: center; justify-content: space-between;
+}
+.topnav-logo {
+  font-weight: 700; font-size: 1.05rem; letter-spacing: -0.02em;
+}
+.topnav-logo span { color: var(--mint); }
+.topnav-cta { display: none; }
+@media(min-width: 640px) { .topnav-cta { display: flex; } }
+
+/* HERO */
+.hero { position: relative; overflow: hidden; }
+.hero::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: var(--gradient-hero);
+}
+.hero::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0.04;
+  background-image:
+    linear-gradient(to right, white 1px, transparent 1px),
+    linear-gradient(to bottom, white 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.hero-inner {
+  padding: 96px 24px 80px; max-width: 1200px; margin: 0 auto;
+  text-align: center;
+}
+@media(min-width: 1024px) { .hero-inner { padding: 140px 24px 120px; } }
+.hero h1 {
+  margin-top: 20px;
+  font-size: clamp(2.4rem, 5vw, 5rem);
+  max-width: 900px; margin-left: auto; margin-right: auto;
+}
+.hero p.subhead {
+  margin-top: 24px; max-width: 560px;
+  font-size: 1.125rem; color: var(--muted-fg);
+  margin-left: auto; margin-right: auto;
+}
+.hero .cta-row {
+  margin-top: 36px; display: flex; flex-wrap: wrap;
+  gap: 12px; justify-content: center;
+}
+
+/* BREADCRUMB */
+.breadcrumb {
+  padding: 16px 0 0;
+  font-size: 0.8rem; color: var(--muted-fg);
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.breadcrumb a { color: var(--muted-fg); transition: color .15s; }
+.breadcrumb a:hover { color: var(--fg); }
+.breadcrumb .sep { opacity: 0.5; }
+.breadcrumb .current { color: var(--fg); }
+
+/* WHAT IT IS — two-col */
+.what { padding: 96px 0; border-top: 1px solid var(--border); }
+.what-grid {
+  display: grid; gap: 56px; align-items: start;
+}
+@media(min-width: 1024px) { .what-grid { grid-template-columns: 1fr 1fr; gap: 80px; } }
+.what-content .h2 {
+  margin-top: 16px; font-size: clamp(1.75rem, 3.5vw, 3rem);
+  font-weight: 500; letter-spacing: -0.03em; line-height: 1.1;
+}
+.what-content .prose {
+  margin-top: 24px; display: flex; flex-direction: column;
+  gap: 16px; color: var(--muted-fg); font-size: 1rem; line-height: 1.65;
+}
+
+/* Code block visual */
+.code-panel {
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: 16px; overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.code-panel-header {
+  padding: 14px 20px; border-bottom: 1px solid var(--code-border);
+  display: flex; align-items: center; gap: 8px;
+}
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+.code-filename {
+  margin-left: 8px; font-size: 0.75rem; color: var(--muted-fg);
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+}
+.code-body {
+  padding: 24px 20px;
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+  font-size: 0.8rem; line-height: 1.7;
+  overflow-x: auto;
+}
+.code-body p { white-space: pre; }
+.c-comment { color: var(--code-muted); }
+.c-key { color: var(--code-blue); }
+.c-str { color: var(--code-green); }
+.c-num { color: var(--code-orange); }
+.c-kw { color: var(--code-purple); }
+.c-fn { color: var(--mint); }
+.code-divider {
+  border: none; border-top: 1px solid var(--code-border); margin: 16px 0;
+}
+.code-response-label {
+  font-size: 0.65rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.16em; color: var(--muted-fg); margin-bottom: 10px;
+}
+
+/* BUILT FOR — vertical grid */
+.built-for { padding: 96px 0; border-top: 1px solid var(--border); }
+.built-for-header { max-width: 720px; margin-bottom: 56px; }
+.built-for-header h2 { margin-top: 12px; font-size: clamp(1.75rem, 3.5vw, 3rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; }
+.built-for-header p { margin-top: 16px; color: var(--muted-fg); font-size: 1.0625rem; line-height: 1.65; }
+.built-for-grid {
+  display: grid; gap: 16px;
+  grid-template-columns: 1fr;
+}
+@media(min-width: 640px) { .built-for-grid { grid-template-columns: repeat(2, 1fr); } }
+@media(min-width: 1024px) { .built-for-grid { grid-template-columns: repeat(3, 1fr); } }
+.bf-card {
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 16px; padding: 28px 28px 28px 24px;
+  border-left: 2px solid oklch(0.82 0.20 155 / 0.4);
+  transition: border-color .2s, transform .2s;
+}
+.bf-card:hover { border-left-color: var(--mint); transform: translateY(-2px); }
+.bf-title { font-weight: 600; font-size: 0.95rem; color: var(--fg); }
+.bf-body { margin-top: 8px; font-size: 0.875rem; color: var(--muted-fg); line-height: 1.65; }
+
+/* HOW IT WORKS — sticky scroll layout */
+.how { padding: 96px 0; border-top: 1px solid var(--border); }
+.how-header { max-width: 640px; margin-bottom: 72px; }
+.how-header h2 { margin-top: 12px; font-size: clamp(1.75rem, 3.5vw, 3rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; }
+.how-header p { margin-top: 16px; color: var(--muted-fg); font-size: 1rem; line-height: 1.65; }
+
+.how-scroll {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+@media(min-width: 900px) {
+  .how-scroll {
+    grid-template-columns: 1fr 1fr;
+    gap: 0 64px;
+    align-items: start;
+  }
+}
+
+/* Left: sticky card column */
+.how-sticky-col {
+  position: relative;
+}
+@media(min-width: 900px) {
+  .how-sticky-col {
+    position: sticky;
+    top: 88px;
+    align-self: start;
+  }
+}
+.how-sticky-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  position: relative;
+}
+.how-sticky-card::before {
+  content: "";
+  position: absolute; top: -60px; right: -60px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: var(--indigo); opacity: 0.25; filter: blur(48px);
+  pointer-events: none;
+}
+.how-card-label {
+  font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.18em; color: var(--muted-fg);
+}
+.how-card-title {
+  margin-top: 20px;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 500; letter-spacing: -0.03em; line-height: 1.15;
+}
+.how-card-body {
+  margin-top: 16px; font-size: 0.9rem;
+  color: var(--muted-fg); line-height: 1.65;
+}
+.how-card-tags {
+  margin-top: 28px; display: flex; flex-wrap: wrap; gap: 8px;
+}
+.how-tag {
+  padding: 5px 12px; border-radius: 999px;
+  background: oklch(0.82 0.20 155 / 0.1);
+  border: 1px solid oklch(0.82 0.20 155 / 0.25);
+  font-size: 0.75rem; font-weight: 500; color: var(--mint);
+}
+.how-counter {
+  margin-top: 32px; padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+.how-counter-dots { display: flex; gap: 6px; }
+.how-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--border-strong); transition: background .3s;
+}
+.how-dot.active { background: var(--mint); }
+.how-counter-label {
+  font-size: 0.75rem; color: var(--muted-fg);
+}
+
+/* Right: steps column */
+.how-steps-col {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.how-step {
+  border: 1px solid var(--border); border-radius: 16px;
+  background: var(--surface-1); overflow: hidden;
+  transition: border-color .25s;
+  cursor: pointer;
+}
+.how-step.open { border-color: oklch(0.82 0.20 155 / 0.45); }
+.how-step-header {
+  padding: 24px 28px;
+  display: flex; align-items: center; gap: 16px;
+}
+.how-step-num {
+  flex-shrink: 0;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: oklch(0.82 0.20 155 / 0.10);
+  border: 1px solid oklch(0.82 0.20 155 / 0.25);
+  color: var(--mint); font-weight: 700; font-size: 0.85rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .25s, border-color .25s;
+}
+.how-step.open .how-step-num {
+  background: oklch(0.82 0.20 155 / 0.2);
+  border-color: oklch(0.82 0.20 155 / 0.6);
+}
+.how-step-title {
+  font-weight: 600; font-size: 0.95rem; flex: 1;
+}
+.how-step-chevron {
+  color: var(--muted-fg); font-size: 0.9rem;
+  transition: transform .25s, color .25s;
+  flex-shrink: 0;
+}
+.how-step.open .how-step-chevron {
+  transform: rotate(180deg); color: var(--mint);
+}
+.how-step-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height .35s ease, padding .35s ease;
+  padding: 0 28px;
+}
+.how-step.open .how-step-body {
+  max-height: 300px;
+  padding: 0 28px 24px;
+}
+.how-step-body p {
+  font-size: 0.875rem; color: var(--muted-fg); line-height: 1.7;
+}
+.how-step-body ul {
+  margin-top: 12px; display: flex; flex-direction: column; gap: 8px;
+}
+.how-step-body li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 0.875rem; color: var(--muted-fg); line-height: 1.6;
+}
+.how-step-body li::before {
+  content: "›"; color: var(--mint); font-weight: 700;
+  flex-shrink: 0; margin-top: 1px;
+}
+
+/* BENEFITS — cards */
+.benefits { padding: 96px 0; border-top: 1px solid var(--border); }
+.benefits-header { margin-bottom: 48px; }
+.benefits-header h2 { margin-top: 12px; font-size: clamp(1.75rem, 3.5vw, 3rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; }
+.benefit-cards {
+  display: grid; gap: 20px;
+  grid-template-columns: 1fr;
+}
+@media(min-width: 640px) { .benefit-cards { grid-template-columns: repeat(2, 1fr); } }
+@media(min-width: 1024px) { .benefit-cards { grid-template-columns: repeat(4, 1fr); } }
+.benefit-card {
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 16px; padding: 28px;
+  transition: border-color .2s, transform .2s;
+}
+.benefit-card:hover { border-color: oklch(0.82 0.20 155 / 0.3); transform: translateY(-2px); }
+.benefit-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: oklch(0.82 0.20 155 / 0.12);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+}
+.benefit-title { margin-top: 20px; font-weight: 600; font-size: 0.95rem; }
+.benefit-body { margin-top: 8px; font-size: 0.875rem; color: var(--muted-fg); line-height: 1.6; }
+
+/* CTA BAND (mid-page) */
+.cta-band-mid {
+  background: var(--surface-1); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 64px 0;
+}
+.cta-band-mid-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 24px;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px;
+}
+.cta-band-mid p { font-size: 1.25rem; font-weight: 500; letter-spacing: -0.02em; max-width: 560px; }
+.cta-band-mid .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* FAQ */
+.faq { padding: 96px 0; border-top: 1px solid var(--border); }
+.faq-header { margin-bottom: 40px; }
+.faq-header h2 { margin-top: 12px; font-size: clamp(2rem, 4vw, 3rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; }
+.faq-header p { margin-top: 16px; color: var(--muted-fg); font-size: 1rem; max-width: 560px; line-height: 1.65; }
+.faq-header a { color: var(--mint); text-decoration: underline; text-underline-offset: 3px; }
+.faq-list { display: flex; flex-direction: column; gap: 2px; }
+.faq-item {
+  border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  background: var(--surface-1);
+}
+.faq-item + .faq-item { margin-top: 4px; }
+.faq-item summary {
+  padding: 20px 24px; font-weight: 500; font-size: 0.95rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+  list-style: none; user-select: none; gap: 16px;
+  transition: background .15s;
+}
+.faq-item summary:hover { background: oklch(1 0 0 / 0.03); }
+.faq-item[open] summary { color: var(--mint); }
+.faq-icon {
+  flex-shrink: 0; font-size: 1.2rem; font-weight: 400;
+  color: var(--muted-fg); transition: transform .2s;
+}
+.faq-item[open] .faq-icon { transform: rotate(45deg); color: var(--mint); }
+.faq-answer {
+  padding: 0 24px 20px; color: var(--muted-fg); font-size: 0.9rem; line-height: 1.7;
+}
+
+/* CLOSING CTA */
+.cta-close {
+  padding: 96px 0; border-top: 1px solid var(--border); text-align: center;
+}
+.cta-close h2 { font-size: clamp(1.75rem, 3.5vw, 3rem); font-weight: 500; letter-spacing: -0.03em; }
+.cta-close p { margin-top: 16px; color: var(--muted-fg); max-width: 440px; margin-left: auto; margin-right: auto; font-size: 1rem; line-height: 1.65; }
+.cta-close .cta-row { margin-top: 36px; justify-content: center; display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* INTERNAL LINK STRIP */
+.link-strip { padding: 48px 0; border-top: 1px solid var(--border); }
+.link-strip-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 24px;
+  display: flex; flex-wrap: wrap; gap: 16px; align-items: center;
+}
+.link-strip p { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted-fg); font-weight: 600; margin-right: 8px; }
+.link-pill {
+  padding: 8px 16px; border-radius: 999px;
+  border: 1px solid var(--border-strong); font-size: 0.875rem; font-weight: 500;
+  color: var(--fg); transition: background .15s, border-color .15s;
+}
+.link-pill:hover { background: oklch(1 0 0 / 0.05); border-color: oklch(0.82 0.20 155 / 0.4); color: var(--mint); }
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="topnav" aria-label="Site navigation">
+  <div class="topnav-inner">
+    <a href="/" class="topnav-logo">Elen<span>PAY</span></a>
+    <a href="/contact/" class="btn btn-mint topnav-cta" style="padding: 9px 18px; font-size: 0.875rem;">Book a Demo <span class="arrow">↗</span></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <!-- PRODUCTION CHECKLIST: Breadcrumb (visible) -->
+    <nav aria-label="Breadcrumb">
+      <ol class="breadcrumb" style="justify-content: center;">
+        <li><a href="/">Home</a></li>
+        <li class="sep" aria-hidden="true">›</li>
+        <li><a href="/bitcoin-lightning-payments/">Bitcoin Lightning Payments</a></li>
+        <li class="sep" aria-hidden="true">›</li>
+        <li class="current" aria-current="page">API Integration</li>
+      </ol>
+    </nav>
+
+    <p class="eyebrow" style="margin-top: 20px;">For Developers</p>
+
+    <!-- PRODUCTION CHECKLIST: H1 — unique, keyword-bearing -->
+    <h1 class="display">
+      Bitcoin Lightning <span class="text-mint">API Integration</span> by ElenPAY
+    </h1>
+
+    <p class="subhead">
+      A production-ready REST API for engineering teams who need to match the checkout experience with full backend control over their Lightning payment flow.
+    </p>
+
+    <div class="cta-row">
+      <a href="/contact/" class="btn btn-mint">Book a Demo <span class="arrow">↗</span></a>
+      <a href="/integrations/api/" class="btn btn-outline">View API Docs <span class="arrow">↗</span></a>
+    </div>
+  </div>
+</header>
+
+<!-- SECTION 2: WHAT IT IS -->
+<section class="what">
+  <div class="container">
+    <div class="what-grid">
+      <!-- Content left -->
+      <div class="what-content">
+        <h2 class="h2 display">
+          A REST API built for <span class="text-mint">production Lightning payments</span>
+        </h2>
+        <div class="prose">
+          <p>
+            ElenPAY is a Lightning Payments Provider that lets your backend create automated Lightning invoices, keep them live and connected to your checkout, receive real-time payment confirmations via webhook, initiate payouts, and query settlement status, so your team retains full control of the payment experience. At the same time, ElenPAY manages node infrastructure, channel liquidity, and routing for you.
+          </p>
+        </div>
+        <div class="cta-row" style="margin-top: 32px;">
+          <a href="/integrations/api/" class="btn btn-outline">Review API Documentation <span class="arrow">↗</span></a>
+        </div>
+      </div>
+
+      <!-- Visual right: code panel -->
+      <div class="code-panel" role="img" aria-label="ElenPAY API code sample — creating a Lightning invoice and receiving the payment URL response">
+        <div class="code-panel-header">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          <span class="code-filename">elenpay-invoice.js</span>
+        </div>
+        <div class="code-body">
+          <p><span class="c-comment">// Create a Lightning invoice</span></p>
+          <p><span class="c-kw">const</span> <span class="c-key">invoice</span> = <span class="c-kw">await</span> elenpay.invoices.<span class="c-fn">create</span>({</p>
+          <p>  <span class="c-key">amount</span>: <span class="c-num">50000</span>,     <span class="c-comment">// satoshis</span></p>
+          <p>  <span class="c-key">currency</span>: <span class="c-str">"BTC"</span>,</p>
+          <p>  <span class="c-key">description</span>: <span class="c-str">"Order #1234"</span>,</p>
+          <p>  <span class="c-key">webhook</span>: <span class="c-str">"https://yoursite.com/webhook"</span></p>
+          <p>});</p>
+          <hr class="code-divider" />
+          <p class="code-response-label">// Returns immediately</p>
+          <p>{</p>
+          <p>  <span class="c-key">"payment_url"</span>: <span class="c-str">"lightning:lnbc500..."</span>,</p>
+          <p>  <span class="c-key">"qr_code"</span>: <span class="c-str">"data:image/png;base64,..."</span>,</p>
+          <p>  <span class="c-key">"invoice_id"</span>: <span class="c-str">"inv_01JQK3..."</span>,</p>
+          <p>  <span class="c-key">"expires_at"</span>: <span class="c-str">"2026-04-29T14:30:00Z"</span></p>
+          <p>}</p>
+          <hr class="code-divider" />
+          <p class="code-response-label">// Webhook fires on payment — &lt; 1 second</p>
+          <p>{</p>
+          <p>  <span class="c-key">"event"</span>: <span class="c-str">"invoice.paid"</span>,</p>
+          <p>  <span class="c-key">"invoice_id"</span>: <span class="c-str">"inv_01JQK3..."</span>,</p>
+          <p>  <span class="c-key">"settled_at"</span>: <span class="c-str">"2026-04-29T14:27:03Z"</span>,</p>
+          <p>  <span class="c-key">"status"</span>: <span class="c-str">"paid"</span></p>
+          <p>}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2B: BUILT FOR -->
+<section class="built-for">
+  <div class="container">
+    <div class="built-for-header">
+      <p class="eyebrow">Best for</p>
+      <h2 class="display">Built for <span class="text-mint">high-frequency payment environments</span></h2>
+      <p>For platforms that require complete control over the payment experience and need a Lightning integration that can scale to high-frequency transaction volumes from day one for small- to mid-tier Bitcoin payments.</p>
+    </div>
+
+    <div class="built-for-grid">
+      <div class="bf-card">
+        <p class="bf-title">Fintech &amp; Crypto Apps</p>
+        <p class="bf-body">ElenPAY's API enables fintech platforms and crypto applications to embed Lightning pay-ins and payouts directly into their product, reducing settlement times from days to under a second without rebuilding payment infrastructure from scratch.</p>
+      </div>
+
+      <div class="bf-card">
+        <p class="bf-title">Payment Providers</p>
+        <p class="bf-body">PSPs, payment orchestrators, and payment acquirers can integrate Lightning as a native payment rail via ElenPAY's API alongside their existing card and bank transfer methods, offering a more competitive set of payment solutions and broader user reach opportunities.</p>
+      </div>
+
+      <div class="bf-card">
+        <p class="bf-title">iGaming Platforms</p>
+        <p class="bf-body">ElenPAY supports instant player deposits and withdrawals with sub-1-second payment confirmation, making it the payment rail of choice for online casinos, sportsbooks, sweepstakes, and prediction platforms operating across multiple markets looking to boost user retention while ensuring efficiency.</p>
+      </div>
+
+      <div class="bf-card">
+        <p class="bf-title">Peer-to-Peer Payments</p>
+        <p class="bf-body">Wallets and P2P platforms rely on ElenPAY's Lightning API to process high volumes of small-value transfers between users in real time, with network fees below $0.01 per transaction regardless of payment frequency.</p>
+      </div>
+
+      <div class="bf-card">
+        <p class="bf-title">Gaming &amp; Digital Collectibles</p>
+        <p class="bf-body">In-game purchases, microtransactions, and digital asset transfers that were previously uneconomical on-chain become viable through Lightning. ElenPAY's API handles the payment layer so developers focus on product, not infrastructure.</p>
+      </div>
+
+      <div class="bf-card">
+        <p class="bf-title">E-commerce &amp; Marketplaces</p>
+        <p class="bf-body">Online stores and multi-vendor marketplaces use ElenPAY's API to accept Lightning payments at checkout, ensuring payment finality and a strong customer payment experience. They also seamlessly distribute small- to mid-tier payouts to sellers with millisecond confirmation, strengthening business relationships.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: HOW IT WORKS -->
+<section class="how">
+  <div class="container">
+    <div class="how-header">
+      <p class="eyebrow">Process</p>
+      <h2 class="display">How Lightning API Integration Works</h2>
+      <p>From credential request to live Lightning payments via API in only four steps.</p>
+    </div>
+
+    <div class="how-scroll">
+
+      <!-- LEFT: sticky summary card -->
+      <div class="how-sticky-col">
+        <div class="how-sticky-card">
+          <p class="how-card-label">Integration overview</p>
+          <h3 class="how-card-title">Live in hours, <span class="text-mint">not weeks</span></h3>
+          <p class="how-card-body">ElenPAY's REST API is built for fast go-live. A sandbox environment, clear webhook structure, and dedicated integration support mean most teams are processing real Lightning payments within a single sprint.</p>
+          <div class="how-card-tags">
+            <span class="how-tag">REST API</span>
+            <span class="how-tag">Webhooks</span>
+            <span class="how-tag">Sandbox</span>
+            <span class="how-tag">&lt; 1s settlement</span>
+          </div>
+          <div class="how-counter">
+            <div class="how-counter-dots" id="howDots">
+              <div class="how-dot active"></div>
+              <div class="how-dot"></div>
+              <div class="how-dot"></div>
+              <div class="how-dot"></div>
+            </div>
+            <span class="how-counter-label" id="howLabel">Step 1 of 4</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: expandable steps -->
+      <div class="how-steps-col" id="howSteps">
+
+        <div class="how-step open" data-step="0">
+          <div class="how-step-header">
+            <div class="how-step-num">1</div>
+            <p class="how-step-title">Generate API Credentials</p>
+            <span class="how-step-chevron">▾</span>
+          </div>
+          <div class="how-step-body">
+            <p>ElenPAY will provide a sandbox API key to test invoice creation, payment flows, and webhook delivery in an isolated Lightning testnet environment before production.</p>
+            <ul>
+              <li>Sandbox mirrors production behaviour exactly</li>
+              <li>No real funds settled during testing</li>
+              <li>Dedicated support throughout onboarding</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="how-step" data-step="1">
+          <div class="how-step-header">
+            <div class="how-step-num">2</div>
+            <p class="how-step-title">Create a Lightning Invoice</p>
+            <span class="how-step-chevron">▾</span>
+          </div>
+          <div class="how-step-body">
+            <p>Your backend sends a POST request to the invoices endpoint with amount, description, and your webhook URL. ElenPAY returns a payment URL and QR code in milliseconds.</p>
+            <ul>
+              <li>Single API call generates invoice + QR code</li>
+              <li>Configurable expiry per invoice</li>
+              <li>Full frontend control over the checkout UI</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="how-step" data-step="2">
+          <div class="how-step-header">
+            <div class="how-step-num">3</div>
+            <p class="how-step-title">Webhook Fires the Customer's Payment</p>
+            <span class="how-step-chevron">▾</span>
+          </div>
+          <div class="how-step-body">
+            <p>The customer scans or pastes the invoice into any Lightning wallet, and the payment finalizes on the Lightning Network in under 1 second. ElenPAY then fires an HTTPS webhook to your backend with the confirmed payment status.</p>
+            <ul>
+              <li>HTTPS POST to your endpoint on every payment event</li>
+              <li>Payload includes invoice ID, amount, and settled timestamp</li>
+              <li>No polling required</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="how-step" data-step="3">
+          <div class="how-step-header">
+            <div class="how-step-num">4</div>
+            <p class="how-step-title">Funds Credited in Real Time</p>
+            <span class="how-step-chevron">▾</span>
+          </div>
+          <div class="how-step-body">
+            <p>Your back office is updated the moment the webhook is acknowledged, receiving instant payment confirmation and making funds available for settlement or payout immediately.</p>
+            <ul>
+              <li>No clearing windows or float</li>
+              <li>Trigger fulfilment, balance updates, or payouts from the same event</li>
+              <li>Supports mass payouts to multiple recipients simultaneously</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  const steps = document.querySelectorAll('.how-step');
+  const dots = document.querySelectorAll('#howDots .how-dot');
+  const label = document.getElementById('howLabel');
+
+  function activate(index) {
+    steps.forEach((s, i) => {
+      s.classList.toggle('open', i === index);
+    });
+    dots.forEach((d, i) => {
+      d.classList.toggle('active', i === index);
+    });
+    label.textContent = 'Step ' + (index + 1) + ' of ' + steps.length;
+  }
+
+  steps.forEach((step, i) => {
+    step.querySelector('.how-step-header').addEventListener('click', () => {
+      activate(step.classList.contains('open') ? i : i);
+      if (!step.classList.contains('open')) activate(i);
+      else activate(i);
+    });
+    step.querySelector('.how-step-header').addEventListener('click', () => activate(i));
+  });
+})();
+</script>
+
+<!-- SECTION 4: BENEFITS -->
+<section class="benefits">
+  <div class="container">
+    <div class="benefits-header">
+      <h2 class="display">Why is ElenPAY's <span class="text-mint">Lightning API</span> ideal for your business</h2>
+    </div>
+
+    <div class="benefit-cards">
+      <div class="benefit-card">
+        <div class="benefit-icon" aria-hidden="true">⚡</div>
+        <p class="benefit-title">Millisecond Confirmation</p>
+        <p class="benefit-body">Lightning invoices created via the API finalize payments in under one second, and settle funds instantly in your back office the moment the customer receives a payment confirmation.</p>
+      </div>
+
+      <div class="benefit-card">
+        <div class="benefit-icon" aria-hidden="true">🎛</div>
+        <p class="benefit-title">Complete Flow Control</p>
+        <p class="benefit-body">Companies own the entire payment UX. The API handles communication with ElenPAY's Lightning infrastructure, while your frontend, invoice logic, and payout rules remain under your full control.</p>
+      </div>
+
+      <div class="benefit-card">
+        <div class="benefit-icon" aria-hidden="true">📡</div>
+        <p class="benefit-title">Webhook-Driven Architecture</p>
+        <p class="benefit-body">Real-time HTTPS webhooks on every payment event. Build event-driven fulfillment flows, balance updates, and payout triggers directly from confirmed payment data.</p>
+      </div>
+
+      <div class="benefit-card">
+        <div class="benefit-icon" aria-hidden="true">📈</div>
+        <p class="benefit-title">Processing 100K+ TPS</p>
+        <p class="benefit-body">ElenPAY's Lightning infrastructure can handle over 100,000 transactions per second. The same API endpoint serves startups and high-frequency operators, allowing them to scale without transaction size limits.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: MID-PAGE CTA BAND -->
+<section class="cta-band-mid">
+  <div class="cta-band-mid-inner">
+    <p>Ready to test ElenPAY's Lightning API in sandbox?</p>
+    <div class="cta-row">
+      <a href="/contact/" class="btn btn-mint">Book a Demo <span class="arrow">↗</span></a>
+      <a href="/integrations/api/" class="btn btn-outline">View API Docs</a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: FAQ -->
+<section class="faq">
+  <div class="container">
+    <div class="faq-header">
+      <p class="eyebrow">FAQ</p>
+      <h2 class="display">Frequently Asked <span class="text-mint">Questions</span></h2>
+      <p>Common questions from developers and engineering leads evaluating ElenPAY's API. You can also explore our <a href="/blog/">Lightning Knowledge Hub</a> or <a href="/contact/">speak with our team</a> directly.</p>
+    </div>
+
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>What is ElenPAY's Lightning API?<span class="faq-icon">+</span></summary>
+        <div class="faq-answer">ElenPAY's Lightning API is a production-ready REST API that enables businesses to programmatically accept and send Bitcoin Lightning payments. It exposes endpoints for invoice creation, payment status webhooks, payouts, and settlement queries, giving developers full control over the payment flow while ElenPAY manages the Lightning node infrastructure, liquidity, and routing.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>How long does it take to integrate ElenPAY's Lightning API?<span class="faq-icon">+</span></summary>
+        <div class="faq-answer">ElenPAY's REST API is designed to be integrated in hours, not weeks. The sandbox environment lets developers test invoice creation, payment flows, and webhook handling against a live Lightning testnet before going live. ElenPAY provides expert integration guidance and 24/7 technical support throughout the process.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Does ElenPAY's API support both pay-ins and payouts?<span class="faq-icon">+</span></summary>
+        <div class="faq-answer">Yes. The API supports pay-ins (receiving Lightning payments from customers), payouts (sending Lightning payments to users, affiliates, or partners), and mass payouts — sending to multiple recipients simultaneously. This makes it suitable for iGaming platforms, creator platforms, and marketplaces with distributed payout requirements.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>What does the webhook payload look like?<span class="faq-icon">+</span></summary>
+        <div class="faq-answer">When a Lightning invoice is paid, ElenPAY fires an HTTPS POST request to the webhook URL specified in the invoice creation call. The payload includes the payment identifier, amount in satoshis, settlement timestamp, and status field. Your backend acknowledges the webhook with a 200 response, and funds are credited to your back office in real time.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Is there a sandbox environment for testing?<span class="faq-icon">+</span></summary>
+        <div class="faq-answer">Yes. ElenPAY provides a full sandbox environment that mirrors production behaviour — invoice creation, payment simulation, and webhook delivery — without settling real funds. Developers can test end-to-end payment flows against Lightning testnet before requesting production API credentials.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>What settlement speed and fees does ElenPAY's API deliver?<span class="faq-icon">+</span></summary>
+        <div class="faq-answer">Lightning payments processed through ElenPAY's API settle in under one second. Network fees are below $0.01 per transaction. There are no chargebacks. Funds are credited to your back office the moment the customer pays — no clearing windows, no float.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Can the API handle high-frequency payment environments?<span class="faq-icon">+</span></summary>
+        <div class="faq-answer">Yes. ElenPAY's Lightning infrastructure supports over 100,000 transactions per second, making the API suitable for iGaming platforms, high-frequency trading environments, and any application requiring concurrent payment processing at scale.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 7: CLOSING CTA -->
+<section class="cta-close">
+  <div class="container">
+    <h2 class="display">Start building with <span class="text-mint">ElenPAY's Lightning API</span></h2>
+    <p>Tell us about your infrastructure and use case. Our team will walk you through sandbox access and support your Lightning integration in just a few days.</p>
+    <div class="cta-row">
+      <a href="/contact/" class="btn btn-mint">Book a Demo <span class="arrow">↗</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- INTERNAL LINK STRIP -->
+<!-- PRODUCTION CHECKLIST: Internal links to parent, /contact/, and sibling cluster pages -->
+<div class="link-strip">
+  <div class="link-strip-inner">
+    <p>Explore</p>
+    <!-- PRODUCTION CHECKLIST: Link to parent /bitcoin-lightning-payments/ -->
+    <a href="/bitcoin-lightning-payments/" class="link-pill">Bitcoin Lightning Payments</a>
+    <!-- PRODUCTION CHECKLIST: Link to sibling cluster page -->
+    <a href="/integrations/widget/" class="link-pill">Payment Widget</a>
+    <a href="/accept-crypto-payments/igaming/" class="link-pill">Lightning for iGaming</a>
+    <a href="/white-label-lightning-psp/" class="link-pill">White-Label PSP</a>
+    <!-- PRODUCTION CHECKLIST: Link to /contact/ -->
+    <a href="/contact/" class="link-pill" style="border-color: oklch(0.82 0.20 155 / 0.4); color: var(--mint);">Contact Sales ↗</a>
+  </div>
+</div>
+
+</body>
+</html>
