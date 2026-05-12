@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ✅ Title tag (under 60 chars) -->
+  <title>ElenPAY Lightning Partner Network | PSP Directory</title>
+
+  <!-- ✅ Meta description (under 155 chars) -->
+  <meta name="description" content="Find a certified ElenPAY Lightning integration partner in your region. Payment service providers delivering Bitcoin Lightning infrastructure worldwide." />
+
+  <!-- ✅ Canonical -->
+  <link rel="canonical" href="https://elenpay.tech/partners/psp-network/" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- ✅ FAQPage JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the ElenPAY PSP Partner Network?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The ElenPAY PSP Partner Network is a directory of certified payment service providers that have integrated ElenPAY's Bitcoin Lightning infrastructure into their payment stacks. Through these partners, merchants and platforms can access Lightning payment services locally or regionally, with the support of a team that already knows the integration."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Who are the partners in this network for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The partner network is designed for businesses looking to accept Bitcoin Lightning payments through a PSP they already work with, or through a regional provider better suited to their compliance and operational needs. It is also for PSPs and payment companies that want to add Lightning to their payment rails."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What can I expect when integrating through a partner?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "All network partners use ElenPAY's Lightning infrastructure, which means sub-1-second settlement, fees below 1%, zero chargebacks, and access to 650M+ Lightning-compatible wallets globally. Each partner handles onboarding, support, and commercial terms on their end. ElenPAY provides the underlying payment rail."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is integrating through a partner different from integrating directly with ElenPAY?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Direct integration with ElenPAY gives you full access to the API, widget, and infrastructure under your own account. Integrating through a partner means working with a PSP that has already built the Lightning layer into their platform — often better suited for businesses that prefer managed services or regional support."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can my company become an ElenPAY partner?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. ElenPAY partners with payment service providers, payment orchestrators, and fintech platforms that want to add Bitcoin Lightning to their offering. If you are a PSP or payment infrastructure company, you can reach out through the contact page to start the conversation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do all partners operate in the same regions?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. ElenPAY's partner network spans multiple regions, including Europe, Latin America, and global markets. Each partner has its own geographic focus and regulatory coverage. The directory above indicates each partner's primary focus so you can identify the most relevant option for your business."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there a cost to working with a partner versus ElenPAY directly?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pricing is set by each partner independently. ElenPAY provides the infrastructure layer; partners set their own commercial terms with their merchants. Contact the partner directly for pricing details, or reach out to ElenPAY if you want to discuss direct integration."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- ✅ BreadcrumbList JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://elenpay.tech/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Partners",
+        "item": "https://elenpay.tech/partners/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "PSP Partner Network",
+        "item": "https://elenpay.tech/partners/psp-network/"
+      }
+    ]
+  }
+  </script>
+
+  <!-- Organization JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "ElenPAY",
+    "url": "https://elenpay.tech",
+    "description": "ElenPAY is a Lightning Payments Provider that enables businesses to integrate Bitcoin Lightning payments through scalable payment services, a payments widget, and APIs.",
+    "sameAs": []
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #080b12;
+      --bg-2:         #0d1220;
+      --bg-card:      #111827;
+      --bg-card-hover:#151e2e;
+      --border:       rgba(255,255,255,0.07);
+      --border-accent:rgba(0,240,150,0.25);
+      --mint:         #00f096;
+      --mint-dim:     rgba(0,240,150,0.12);
+      --mint-mid:     rgba(0,240,150,0.06);
+      --white:        #ffffff;
+      --grey-1:       #c9d1e0;
+      --grey-2:       #7a8499;
+      --grey-3:       #3d4558;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body:    'Space Grotesk', sans-serif;
+      --radius:       14px;
+      --radius-sm:    8px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── NAV ─────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
+      background: rgba(8,11,18,0.92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--mint); }
+    .nav-links {
+      display: flex; gap: 36px; list-style: none;
+    }
+    .nav-links a {
+      color: var(--grey-1); text-decoration: none;
+      font-size: 14px; font-weight: 400;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .btn-nav {
+      background: var(--mint); color: #000;
+      padding: 10px 22px; border-radius: 6px;
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 13px; text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: opacity 0.2s;
+    }
+    .btn-nav:hover { opacity: 0.88; }
+
+    /* ─── BREADCRUMB ──────────────────────────────── */
+    .breadcrumb {
+      padding: 18px 48px;
+      font-size: 13px; color: var(--grey-2);
+    }
+    .breadcrumb a { color: var(--grey-2); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--mint); }
+    .breadcrumb span { margin: 0 8px; }
+
+    /* ─── HERO ────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 80px 48px 90px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 500px;
+      background: radial-gradient(ellipse at center, rgba(0,240,150,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--mint-dim);
+      border: 1px solid var(--border-accent);
+      color: var(--mint);
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 1.2px; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 100px;
+      margin-bottom: 32px;
+    }
+    .hero-label::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--mint); border-radius: 50%;
+    }
+    /* ✅ H1 — unique, keyword-bearing */
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -1.5px;
+      max-width: 780px;
+      margin: 0 auto 24px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--mint);
+    }
+    .hero-sub {
+      font-size: 18px;
+      color: var(--grey-1);
+      max-width: 580px;
+      margin: 0 auto;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* ─── SECTION WRAPPER ─────────────────────────── */
+    .section { padding: 80px 48px; max-width: 1200px; margin: 0 auto; }
+    .section-full { padding: 80px 48px; }
+
+    /* ─── SECTION HEADER ──────────────────────────── */
+    .section-label {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 1.8px; text-transform: uppercase;
+      color: var(--mint); margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 700; letter-spacing: -0.8px;
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      color: var(--grey-1); font-weight: 300;
+      max-width: 560px; font-size: 16px;
+    }
+
+    /* ─── PARTNER GRID ────────────────────────────── */
+    .partners-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+      margin-top: 56px;
+    }
+    .partner-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      display: flex; flex-direction: column;
+      transition: border-color 0.25s, background 0.25s, transform 0.2s;
+    }
+    .partner-card:hover {
+      border-color: var(--border-accent);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+    .partner-logo-wrap {
+      width: 100%; height: 56px;
+      display: flex; align-items: center;
+      margin-bottom: 24px;
+    }
+    .partner-logo-placeholder {
+      height: 36px;
+      display: flex; align-items: center;
+      font-family: var(--font-display);
+      font-weight: 700; font-size: 20px;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+    .partner-logo-placeholder span { color: var(--mint); }
+
+    .partner-card h3 {
+      font-family: var(--font-display);
+      font-size: 18px; font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .partner-tag {
+      display: inline-block;
+      background: var(--mint-mid);
+      border: 1px solid var(--border-accent);
+      color: var(--mint);
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.8px; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .partner-card p {
+      color: var(--grey-1);
+      font-size: 14px;
+      line-height: 1.7;
+      flex: 1;
+      margin-bottom: 28px;
+    }
+    .btn-partner {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--border-accent);
+      color: var(--mint);
+      background: transparent;
+      padding: 11px 22px; border-radius: 6px;
+      font-family: var(--font-display); font-weight: 600;
+      font-size: 13px; text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: background 0.2s, color 0.2s;
+      align-self: flex-start;
+    }
+    .btn-partner:hover {
+      background: var(--mint); color: #000;
+    }
+    .btn-partner svg {
+      width: 14px; height: 14px;
+      transition: transform 0.2s;
+    }
+    .btn-partner:hover svg { transform: translate(2px, -2px); }
+
+    /* ─── BECOME A PARTNER BAND ───────────────────── */
+    .partner-band {
+      background: linear-gradient(135deg, #0d1a12 0%, #0a1520 100%);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 72px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .partner-band::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse, rgba(0,240,150,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .partner-band-inner { position: relative; max-width: 640px; margin: 0 auto; }
+    .partner-band h2 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3vw, 42px);
+      font-weight: 800; letter-spacing: -0.8px;
+      margin-bottom: 16px;
+    }
+    .partner-band p {
+      color: var(--grey-1); font-size: 16px;
+      font-weight: 300; margin-bottom: 36px; line-height: 1.65;
+    }
+    .band-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--mint); color: #000;
+      padding: 14px 32px; border-radius: 6px;
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 14px; text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+    .btn-secondary {
+      border: 1px solid var(--grey-3); color: var(--grey-1);
+      padding: 14px 32px; border-radius: 6px;
+      font-family: var(--font-display); font-weight: 600;
+      font-size: 14px; text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--grey-1); color: var(--white); }
+
+    /* ─── FAQ ─────────────────────────────────────── */
+    .faq-wrap { max-width: 760px; margin: 56px auto 0; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 0;
+    }
+    .faq-question {
+      width: 100%; background: none; border: none;
+      color: var(--white); cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px;
+      padding: 24px 0;
+      font-family: var(--font-body); font-size: 15px; font-weight: 500;
+      text-align: left;
+      transition: color 0.2s;
+    }
+    .faq-question:hover { color: var(--mint); }
+    .faq-icon {
+      flex-shrink: 0;
+      width: 24px; height: 24px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; color: var(--grey-2);
+      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.25s;
+    }
+    .faq-item.open .faq-icon {
+      background: var(--mint-dim);
+      border-color: var(--border-accent);
+      color: var(--mint);
+      transform: rotate(45deg);
+    }
+    .faq-answer {
+      display: grid; grid-template-rows: 0fr;
+      transition: grid-template-rows 0.3s ease;
+    }
+    .faq-item.open .faq-answer {
+      grid-template-rows: 1fr;
+    }
+    .faq-answer-inner {
+      overflow: hidden;
+      color: var(--grey-1); font-size: 14px;
+      font-weight: 300; line-height: 1.75;
+      padding-bottom: 0;
+    }
+    .faq-item.open .faq-answer-inner { padding-bottom: 24px; }
+
+    /* ─── CLOSING CTA ─────────────────────────────── */
+    .closing-cta {
+      text-align: center; padding: 100px 48px;
+      position: relative; overflow: hidden;
+    }
+    .closing-cta::before {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 500px;
+      background: radial-gradient(ellipse, rgba(0,240,150,0.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .closing-cta-inner { position: relative; max-width: 580px; margin: 0 auto; }
+    .closing-cta h2 {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 800; letter-spacing: -1px;
+      line-height: 1.1; margin-bottom: 20px;
+    }
+    .closing-cta p {
+      color: var(--grey-1); font-size: 16px;
+      font-weight: 300; margin-bottom: 40px;
+    }
+
+    /* ─── INTERNAL LINKS BAR ──────────────────────── */
+    .internal-links {
+      border-top: 1px solid var(--border);
+      padding: 40px 48px;
+      max-width: 1200px; margin: 0 auto;
+      display: flex; gap: 12px; flex-wrap: wrap;
+    }
+    .internal-link-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 1px solid var(--border); border-radius: 100px;
+      padding: 8px 18px;
+      font-size: 13px; color: var(--grey-1);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .internal-link-pill:hover { border-color: var(--border-accent); color: var(--mint); }
+    .internal-link-pill::before { content: '↗'; font-size: 11px; }
+
+    /* ─── FOOTER ──────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 20px;
+      color: var(--grey-2); font-size: 13px;
+    }
+    .footer-logo {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: 17px; color: var(--white); text-decoration: none;
+    }
+    .footer-logo span { color: var(--mint); }
+
+    /* ─── DIVIDER ─────────────────────────────────── */
+    .divider {
+      border: none; border-top: 1px solid var(--border);
+      margin: 0 48px;
+    }
+
+    /* ─── ANIMATIONS ──────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate { animation: fadeUp 0.55s ease both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      .hero, .section, .section-full, .partner-band, .closing-cta { padding-left: 24px; padding-right: 24px; }
+      .breadcrumb, .divider, .internal-links, footer { padding-left: 24px; padding-right: 24px; }
+      .partners-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="https://elenpay.tech/" class="nav-logo">Elen<span>PAY</span></a>
+    <ul class="nav-links">
+      <li><a href="https://elenpay.tech/about-elenpay/">About ElenPAY</a></li>
+      <li><a href="https://elenpay.tech/bitcoin-lightning-payments/">Why Lightning</a></li>
+      <li><a href="https://elenpay.tech/integrations/api/">How to Integrate</a></li>
+      <li><a href="https://elenpay.tech/blog/">Blog</a></li>
+      <li><a href="https://elenpay.tech/partners/">Partners</a></li>
+    </ul>
+    <a href="/contact/" class="btn-nav">Book a Demo</a>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="https://elenpay.tech/">Home</a>
+    <span>›</span>
+    <a href="https://elenpay.tech/partners/">Partners</a>
+    <span>›</span>
+    PSP Partner Network
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-label animate">Lightning Partners Network</div>
+    <!-- ✅ H1 — keyword-bearing, unique -->
+    <h1 class="animate delay-1">Integrate ElenPAY's technology via our<br /><em>Lightning Partners Network</em></h1>
+    <p class="hero-sub animate delay-2">
+      ElenPAY's PSP Partners Network enables companies in any region to go live faster with Lightning Payments and integrate additional products aligned with their needs. From local rails to platform infrastructure, and more!
+    </p>
+    <div class="animate delay-3" style="margin-top: 36px;">
+      <a href="#partners" class="btn-primary" style="font-size: 14px; padding: 13px 32px;">Explore</a>
+    </div>
+  </header>
+
+  <hr class="divider" />
+
+  <!-- PARTNER DIRECTORY -->
+  <section class="section" aria-labelledby="partners-heading" id="partners">
+    <div>
+      <p class="section-label">Lightning Partners Network</p>
+      <h2 class="section-title" id="partners-heading">Find the partner that best fits your company</h2>
+      <p class="section-desc">Our partners have integrated ElenPAY's Bitcoin Lightning payment infrastructure into their stack. Connect with the one best suited to your region, vertical, or existing payment stack.</p>
+    </div>
+
+    <div class="partners-grid">
+
+      <!-- Partner 1: CryptoProcessing by CoinsPaid -->
+      <div class="partner-card">
+        <div class="partner-logo-wrap">
+          <div class="partner-logo-placeholder">CryptoProcessing <span>·</span></div>
+        </div>
+        <h3>CryptoProcessing by CoinsPaid</h3>
+        <span class="partner-tag">Crypto Payment Processing · Europe & Global</span>
+        <p>CryptoProcessing by CoinsPaid is a full-spectrum crypto payment platform serving iGaming operators, exchanges, and digital businesses worldwide. Bitcoin Lightning is part of their payment stack, giving merchants access to instant Bitcoin settlements alongside a broad suite of crypto assets, within CoinsPaid's regulated and well-established infrastructure.</p>
+        <a href="https://cryptoprocessing.com/" target="_blank" rel="noopener noreferrer" class="btn-partner">
+          Visit Partner
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </a>
+      </div>
+
+      <!-- Partner 2: TAG Systems -->
+      <div class="partner-card">
+        <div class="partner-logo-wrap">
+          <div class="partner-logo-placeholder">TAG <span>Systems</span></div>
+        </div>
+        <h3>TAG Systems</h3>
+        <span class="partner-tag">Payment Technology · Multi-Region</span>
+        <p>TAG Systems is a payment technology provider specialising in alternative payment solutions for digital platforms, fintech companies, and online merchants. Bitcoin Lightning is now part of their payment offering, making it straightforward for merchants to add fast, low-cost Bitcoin payment acceptance to platforms that already rely on TAG Systems infrastructure.</p>
+        <a href="https://tagsystems.com" target="_blank" rel="noopener noreferrer" class="btn-partner">
+          Visit Partner
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </a>
+      </div>
+
+      <!-- Partner 3: Fynteck -->
+      <div class="partner-card">
+        <div class="partner-logo-wrap">
+          <div class="partner-logo-placeholder">Fyn<span>tek</span></div>
+        </div>
+        <h3>Fynteck</h3>
+        <span class="partner-tag">Fintech Infrastructure · Global</span>
+        <p>Fynteck is a fintech infrastructure provider focused on fast, compliant payment flows for digital platforms and financial services companies. Bitcoin Lightning sits within their payment stack, so Fynteck's clients get access to instant settlement and near-zero fees without having to manage node infrastructure or liquidity on their own.</p>
+        <a href="https://fyntek.io/" target="_blank" rel="noopener noreferrer" class="btn-partner">
+          Visit Partner
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </a>
+      </div>
+
+      <!-- Partner 4: Catalyst Pay -->
+      <div class="partner-card">
+        <div class="partner-logo-wrap">
+          <div class="partner-logo-placeholder">Catalyst <span>Pay</span></div>
+        </div>
+        <h3>Catalyst Pay</h3>
+        <span class="partner-tag">Payment Services · Global</span>
+        <p>Catalyst Pay is a payment services company built for digital platforms, marketplaces, and online businesses. Bitcoin Lightning is part of their infrastructure, which means merchants on Catalyst Pay can process Bitcoin payments with instant confirmation, zero chargebacks, and reach across a growing global base of Lightning wallet users.</p>
+        <a href="https://catalystpay.com/" target="_blank" rel="noopener noreferrer" class="btn-partner">
+          Visit Partner
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </a>
+      </div>
+
+      <!-- Partner 5: Alea -->
+      <div class="partner-card">
+        <div class="partner-logo-wrap">
+          <div class="partner-logo-placeholder">Alea<span>·</span></div>
+        </div>
+        <h3>Alea</h3>
+        <span class="partner-tag">iGaming Platform Provider · Global</span>
+        <p>Alea is a B2B platform aggregator and technology provider for the iGaming industry, connecting operators with games, content, and payments through a single API. Bitcoin Lightning is part of their payment capabilities, giving online gaming platforms a fast, private, low-cost option that crypto-native players increasingly expect.</p>
+        <a href="https://www.alea.com/en/" target="_blank" rel="noopener noreferrer" class="btn-partner">
+          Visit Partner
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </a>
+      </div>
+
+      <!-- Partner 6: BetConstruct -->
+      <div class="partner-card">
+        <div class="partner-logo-wrap">
+          <div class="partner-logo-placeholder">Bet<span>Construct</span></div>
+        </div>
+        <h3>BetConstruct</h3>
+        <span class="partner-tag">iGaming Software Provider · Global</span>
+        <p>BetConstruct is a leading iGaming platform provider offering sports betting, casino, and crypto iGaming solutions to operators worldwide. Bitcoin Lightning is available within their payment offering, giving operators a fast, low-cost deposit and withdrawal option well suited to crypto-native player bases across global markets.</p>
+        <a href="https://www.betconstruct.com/" target="_blank" rel="noopener noreferrer" class="btn-partner">
+          Visit Partner
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BECOME A PARTNER BAND -->
+  <div class="partner-band">
+    <div class="partner-band-inner">
+      <p class="section-label" style="margin-bottom:14px;">For Payment Service Providers</p>
+      <h2>Add Lightning to Your Payment Stack</h2>
+      <p>If you are a PSP, payment orchestrator, or fintech platform looking to offer Bitcoin Lightning payments to your merchants, ElenPAY provides the infrastructure — and you own the commercial relationship. No node management. No liquidity headaches. Just Lightning, ready to go.</p>
+      <div class="band-actions">
+        <!-- ✅ Internal link to /contact/ -->
+        <a href="/contact/" class="btn-primary">Become a Partner</a>
+        <!-- ✅ Internal link to parent /bitcoin-lightning-payments/ -->
+        <a href="/bitcoin-lightning-payments/" class="btn-secondary">Explore Lightning Infrastructure</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <section class="section" aria-labelledby="faq-heading">
+    <div style="text-align:center; max-width:640px; margin:0 auto;">
+      <p class="section-label">Partner Program</p>
+      <h2 class="section-title" id="faq-heading">Frequently Asked Questions</h2>
+      <p class="section-desc" style="margin:0 auto;">How the ElenPAY partner network works, who it's for, and what merchants can expect.</p>
+    </div>
+
+    <div class="faq-wrap">
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          What is the ElenPAY PSP Partner Network?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            The ElenPAY PSP Partner Network is a directory of certified payment service providers that have integrated ElenPAY's Bitcoin Lightning infrastructure into their payment stacks. Through these partners, merchants and platforms can access Lightning payment services locally or regionally, with the support of a team that already knows the integration.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Who is the partner network for?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            The partner network serves two audiences. First, businesses that want to accept Bitcoin Lightning payments through a PSP they already work with, or through a regional provider that fits their compliance and operational context. Second, PSPs and payment companies that want to add Lightning to their payment rails using ElenPAY's infrastructure.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          What can I expect when integrating through a partner?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            All network partners use ElenPAY's Lightning infrastructure, which means sub-1-second settlement, fees below 1%, zero chargebacks, and access to 650M+ Lightning-compatible wallets globally. Each partner handles onboarding, support, and commercial terms independently. ElenPAY provides the underlying payment rail.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          How is integrating through a partner different from integrating directly with ElenPAY?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            Direct integration with ElenPAY gives you full access to the API, widget, and infrastructure under your own account. Integrating through a partner means working with a PSP that has already built the Lightning layer into their platform — often better suited for businesses that prefer managed services, have an existing relationship with that PSP, or need regional support.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Can my company become an ElenPAY partner?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            Yes. ElenPAY partners with payment service providers, payment orchestrators, and fintech platforms that want to add Bitcoin Lightning to their offering. If you are a PSP or payment infrastructure company, reach out through the contact page to start the conversation. Onboarding is straightforward — ElenPAY handles the infrastructure so you can focus on your merchants.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Do all partners operate in the same regions?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            No. ElenPAY's partner network covers multiple regions, including Europe, Latin America, and global markets. Each partner has its own geographic focus and regulatory coverage. The tags on each partner card indicate their primary focus area, so you can identify the most relevant option for your business.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Is there a cost to working with a partner versus integrating with ElenPAY directly?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            Pricing is set by each partner independently. ElenPAY provides the infrastructure layer; partners define their own commercial terms with merchants. Contact the relevant partner directly for pricing, or reach out to ElenPAY if you want to explore a direct integration instead.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CLOSING CTA -->
+  <section class="closing-cta" aria-labelledby="cta-heading">
+    <div class="closing-cta-inner">
+      <p class="section-label" style="margin-bottom:12px;">Ready to Get Started?</p>
+      <h2 id="cta-heading">Book a Demo<br />with ElenPAY</h2>
+      <p>See how ElenPAY's Bitcoin Lightning infrastructure works, and find out whether a direct integration or a partner is the right path for your business.</p>
+      <!-- ✅ Internal link to /contact/ -->
+      <a href="/contact/" class="btn-primary" style="font-size:15px; padding:16px 40px;">Book a Demo</a>
+    </div>
+  </section>
+
+  <!-- ✅ Internal links: parent + sibling cluster page -->
+  <div class="internal-links" aria-label="Related pages">
+    <a href="/bitcoin-lightning-payments/" class="internal-link-pill">Bitcoin Lightning Payments</a>
+    <a href="/white-label-lightning-psp/" class="internal-link-pill">White Label Lightning PSP</a>
+    <a href="/integrations/api/" class="internal-link-pill">API Integration</a>
+    <a href="/contact/" class="internal-link-pill">Contact ElenPAY</a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="https://elenpay.tech/" class="footer-logo">Elen<span>PAY</span></a>
+    <span>© 2025 ElenPAY. All rights reserved.</span>
+    <span style="color: var(--grey-3);">elenpay.tech</span>
+  </footer>
+
+  <script>
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+
+        // Close all
+        document.querySelectorAll('.faq-item.open').forEach(el => {
+          el.classList.remove('open');
+          el.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+        });
+
+        // Toggle clicked
+        if (!isOpen) {
+          item.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
